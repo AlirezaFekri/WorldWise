@@ -2,11 +2,13 @@
 import useTitle from "../hooks/useTitle";
 import styles from "./Product.module.css";
 import pricingImg from "./../assets/img/img-2.jpg"
+import PageNav from "../components/PageNav";
 
 export default function Product() {
   useTitle("Pricing")
   return (
     <main className={styles.product}>
+      <PageNav />
       <section>
         <div>
           <h2>

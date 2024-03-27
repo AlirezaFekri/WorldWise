@@ -1,12 +1,14 @@
 import useTitle from "../hooks/useTitle";
 import styles from "./Product.module.css";
 import productImg from "./../assets/img/img-1.jpg";
+import PageNave from "./../components/PageNav"
 
 export default function Product() {
 	useTitle("Product");
 
 	return (
 		<main className={styles.product}>
+			<PageNave />
 			<section>
 				<img
 					src={productImg}
