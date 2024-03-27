@@ -1,0 +1,30 @@
+.nav ul {
+    display: flex;
+    justify-content: space-around;
+    grid-row: 1;
+    grid-column: 3;
+    gap: 20px;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transition: all .4s;
+}
+
+.nav a {
+    text-decoration: none;
+}
+
+.nav :global(.active) {
+    display: block;
+    font-size: large;
+    font-weight: 900;
+    color: "red";
+}
+
+.nav li {
+    display: inline-block;
+    list-style: none;
+}
