@@ -6,7 +6,7 @@ function CityItem({ city }) {
 	const date = new Date(city.date);
 	return (
 		<li>
-			<NavLink to={city.cityName} className={styles.cityItem}>
+			<NavLink to={`${city.id}`} className={styles.cityItem}>
 				<span className={styles.emoji}>
 					<img
 						src={`https://flagsapi.com/${city.emoji}/flat/32.png`}
