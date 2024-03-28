@@ -3,6 +3,7 @@ import styles from "./Login.module.css";
 import useTitle from "../hooks/useTitle";
 
 export default function Login() {
+	useTitle("Login")
 	// PRE-FILL FOR DEV PURPOSES
 	const [email, setEmail] = useState("jack@example.com");
 	const [password, setPassword] = useState("qwerty");

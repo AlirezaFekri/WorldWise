@@ -3,19 +3,23 @@ import { NavLink } from "react-router-dom";
 import styles from "./CityItem.module.css";
 
 function CityItem({ city }) {
-	const date = new Date(city.date);
+	const {
+		id,
+		emoji,
+		cityName,
+		date,
+		position: { lat, lng },
+	} = city;
+	const dateS = new Date(date);
 	return (
 		<li>
-			<NavLink to={`${city.id}`} className={styles.cityItem}>
+			<NavLink to={`${id}?lat=${lat}&lng=${lng}`} className={styles.cityItem}>
 				<span className={styles.emoji}>
-					<img
-						src={`https://flagsapi.com/${city.emoji}/flat/32.png`}
-						alt="Flag"
-					/>
+					<img src={`https://flagsapi.com/${emoji}/flat/32.png`} alt="Flag" />
 				</span>
-				<p className={styles.name}>{city.cityName}</p>
+				<p className={styles.name}>{cityName}</p>
 				<p className={styles.date}>
-					{date.toLocaleDateString("en-EN", {
+					{dateS.toLocaleDateString("en-EN", {
 						month: "long",
 						day: "2-digit",
 						year: "numeric",
