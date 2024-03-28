@@ -3,9 +3,9 @@ import { useEffect } from "react";
 
 function useTitle(pageName) {
     return useEffect(() => {
-		document.title = `World Wise | ${pageName}`;
+		document.title = `WorldWise | ${pageName}`;
 
-		return () => (document.title = `World Wise | Home`);
+		return () => (document.title = `WorldWise | Home`);
 	}, []);
 }
 
