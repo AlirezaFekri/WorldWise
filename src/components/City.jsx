@@ -11,8 +11,7 @@ const formatDate = (date) =>
 		weekday: "long",
 	}).format(new Date(date));
 
-function City({ cities, isLoading }) {
-	if (isLoading) return <Spinner />;
+function City({ cities }) {
 	const { id } = useParams();
 	const currentCity = cities.filter((el) => el.id === Number(id));
 	const {

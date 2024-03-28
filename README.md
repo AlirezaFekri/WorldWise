@@ -1,5 +1,19 @@
 # React + Vite
 
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm run server`
+
+Use this command to run json-server
+open [http://localhost:8000/cities](http://localhost:8000/cities) to view it in your browser.
+
+### `npm run dev`
+
+Runs the app in the development mode.\
+Open [http://localhost:5173](http://localhost:5173)(default) to view it in your browser.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
