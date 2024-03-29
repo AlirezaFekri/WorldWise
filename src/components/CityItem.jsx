@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { NavLink } from "react-router-dom";
 import styles from "./CityItem.module.css";
+import { useCities } from "../contexts/CitiesProvider";
 
 function CityItem({ city }) {
 	const {
@@ -10,10 +11,16 @@ function CityItem({ city }) {
 		date,
 		position: { lat, lng },
 	} = city;
+	const { currentCity } = useCities();
+	const isActive = id === currentCity.id;
 	const dateS = new Date(date);
 	return (
 		<li>
-			<NavLink to={`${id}?lat=${lat}&lng=${lng}`} className={styles.cityItem}>
+			<NavLink
+				to={`${id}?lat=${lat}&lng=${lng}`}
+				className={`${styles.cityItem} ${
+					isActive ? styles["cityItem--active"] : ""
+				}`}>
 				<span className={styles.emoji}>
 					<img src={`https://flagsapi.com/${emoji}/flat/32.png`} alt="Flag" />
 				</span>

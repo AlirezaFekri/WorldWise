@@ -2,7 +2,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import styles from "./City.module.css";
 import Button from "./Button";
 import useTitle from "../hooks/useTitle";
-import { useCities } from "../PostProvider";
+import { useCities } from "./../contexts/CitiesProvider";
+import Spinner from "./Spinner";
+import { useEffect } from "react";
 
 const formatDate = (date) =>
 	new Intl.DateTimeFormat("en", {
@@ -13,14 +15,19 @@ const formatDate = (date) =>
 	}).format(new Date(date));
 
 function City() {
-	const { cities } = useCities();
 	const navigate = useNavigate();
 	const { id } = useParams();
-	const currentCity = cities.filter((el) => el.id === Number(id));
-	const {
-		0: { cityName, emoji, date, notes },
-	} = currentCity;
+	const { currentCity, getCity, isLoading } = useCities();
+	const { cityName, emoji, date, notes } = currentCity;
+
+
+	useEffect(() => {
+		getCity(id);
+	}, [id]);
+
 	useTitle(cityName);
+
+	if (isLoading) return <Spinner />;
 	return (
 		<div className={styles.city}>
 			<div className={styles.row}>

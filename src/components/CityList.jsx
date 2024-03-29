@@ -3,7 +3,7 @@ import CityItem from "./CityItem";
 import Spinner from "./Spinner";
 import Message from "./Message";
 import useTitle from "../hooks/useTitle";
-import { useCities } from "../PostProvider";
+import { useCities } from "./../contexts/CitiesProvider";
 
 function CityList() {
 	const { cities, isLoading, error } = useCities();
