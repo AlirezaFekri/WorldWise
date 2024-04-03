@@ -22,7 +22,7 @@ function Map() {
 	useEffect(() => {
 		if (lat && lng) setMapPosition([lat, lng]);
 	}, [lat, lng]);
-
+	
 	useEffect(() => {
 		setMapPosition(position);
 	}, [position]);

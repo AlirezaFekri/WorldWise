@@ -1,13 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Login.module.css";
 import useTitle from "../hooks/useTitle";
+import { useAuth } from "../contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 export default function Login() {
-	useTitle("Login")
-	// PRE-FILL FOR DEV PURPOSES
-	const [email, setEmail] = useState("jack@example.com");
-	const [password, setPassword] = useState("qwerty");
 	useTitle("Login");
+	// PRE-FILL FOR DEV PURPOSES
+	const [email, setEmail] = useState("fekri593@gmail.com");
+	const [password, setPassword] = useState("1234567");
+	const { login, status, error } = useAuth();
+
+	const navigat = useNavigate();
+	useEffect(() => {
+		if (status === "logedIn") {
+			navigat("/app", { replace: true });
+		}
+	}, [status, navigat]);
+
+	function handleLogin(e) {
+		e.preventDefault();
+		if (email !== "" && password !== "") {
+			login(email, password);
+		}
+	}
 
 	return (
 		<main className={styles.login}>
@@ -31,9 +48,11 @@ export default function Login() {
 						value={password}
 					/>
 				</div>
-
+				{error && <div>{error}</div>}
 				<div>
-					<button>Login</button>
+					<Button type="primary" handleClick={handleLogin}>
+						Login
+					</Button>
 				</div>
 			</form>
 		</main>

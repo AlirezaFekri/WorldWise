@@ -1,6 +1,8 @@
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 
 import { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import styles from "./Form.module.css";
 import Button from "./Button";
@@ -9,14 +11,7 @@ import Spinner from "./Spinner";
 import { useNavigate } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
 import useUrlPosition from "../hooks/useUrlPosition";
-
-export function convertToEmoji(countryCode) {
-	const codePoints = countryCode
-		.toUpperCase()
-		.split("")
-		.map((char) => 127397 + char.charCodeAt());
-	return String.fromCodePoint(...codePoints);
-}
+import { useCities } from "../contexts/CitiesProvider";
 
 function Form() {
 	useTitle("Add new City");
@@ -35,6 +30,7 @@ function Form() {
 	const [lat, lng] = useUrlPosition();
 	const [isLoadingGeoCoding, setIsLoadingGeoCoding] = useState(false);
 	const [error, setError] = useState("");
+	const { isLoading, addCity } = useCities();
 
 	const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
@@ -51,7 +47,6 @@ function Form() {
 					throw new Error(
 						"Hier is not a Country, Please Click another place at Map"
 					);
-				console.log(data);
 				setCityName(data.city || data.locality || "");
 				setCountry(data.countryName);
 				setCountryCode(data.countryCode || "");
@@ -63,28 +58,55 @@ function Form() {
 		}
 		fetchCityData();
 	}, [lat, lng]);
+
+	if (!lat || !lng) {
+		return <Message message={"Start with clicking some the Map"} />;
+	}
 	if (isLoadingGeoCoding) return <Spinner />;
 	if (error) return <Message message={error} />;
 
+	async function handleSubmitForm(e) {
+		const random = Math.ceil(Math.random() * 99999999);
+		e.preventDefault();
+		const data = {
+			cityName,
+			country,
+			emoji: countryCode,
+			notes,
+			date,
+			position: {
+				lat,
+				lng,
+			},
+			id: random,
+		};
+		await addCity(data);
+		navigate("/app");
+	}
+
 	return (
-		<form className={styles.form}>
+		<form
+			className={`${styles.form} ${isLoading ? styles.loading : ""}`}
+			onSubmit={handleSubmitForm}>
 			<div className={styles.row}>
 				<label htmlFor="cityName">City name</label>
 				<input
 					id="cityName"
 					onChange={(e) => setCityName(e.target.value)}
 					value={cityName}
+					disabled
 				/>
-				{/* <span className={styles.flag}>{emoji}</span> */}
+				<span className={styles.flag}>
+					<img
+						src={`https://flagsapi.com/${countryCode}/flat/32.png`}
+						alt="Flag"
+					/>
+				</span>
 			</div>
 
 			<div className={styles.row}>
 				<label htmlFor="date">When did you go to {cityName}?</label>
-				<input
-					id="date"
-					onChange={(e) => setDate(e.target.value)}
-					value={date}
-				/>
+				<DatePicker id="date" onChange={(e) => setDate(e)} selected={date} />
 			</div>
 
 			<div className={styles.row}>
@@ -102,7 +124,7 @@ function Form() {
 					type="back"
 					handleClick={(e) => {
 						e.preventDefault();
-						navigate(-1);
+						navigate("/app");
 					}}>
 					&larr; Back
 				</Button>

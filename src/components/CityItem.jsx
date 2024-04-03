@@ -4,6 +4,7 @@ import styles from "./CityItem.module.css";
 import { useCities } from "../contexts/CitiesProvider";
 
 function CityItem({ city }) {
+	const { deleteCity } = useCities();
 	const {
 		id,
 		emoji,
@@ -14,6 +15,12 @@ function CityItem({ city }) {
 	const { currentCity } = useCities();
 	const isActive = id === currentCity.id;
 	const dateS = new Date(date);
+
+	async function handleDelete(e) {
+		e.preventDefault();
+		await deleteCity(id);
+		
+	}
 	return (
 		<li>
 			<NavLink
@@ -32,7 +39,9 @@ function CityItem({ city }) {
 						year: "numeric",
 					})}
 				</p>
-				<button className={styles.deleteBtn}>x</button>
+				<button onClick={handleDelete} className={styles.deleteBtn}>
+					x
+				</button>
 			</NavLink>
 		</li>
 	);
